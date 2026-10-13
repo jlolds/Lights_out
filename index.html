@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lights Out in Bethesda: NIH Shutdown War Game</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%); color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,100,200,0.3); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
+        .header p { font-size: 1.1em; opacity: 0.9; }
+        .tabs { display: flex; flex-wrap: wrap; background: #f0f0f0; border-bottom: 2px solid #ddd; }
+        .tab { flex: 1; padding: 15px; text-align: center; cursor: pointer; border: none; background: none; font-size: 1em; font-weight: 600; font-family: inherit; color: #333; }
+        .tab:hover { background: #e0e0e0; }
+        .tab.active { background: white; color: #3b82f6; border-bottom: 3px solid #3b82f6; }
+        .content { padding: 30px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .danger-box { background: #f8d7da; border-left: 4px solid #dc3545; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .info-box { background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .classified-box { background: #1a1a1a; color: #ff6b6b; border-left: 4px solid #ff0000; padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .classified-box strong { color: #ffb3b3; }
+        .role-card { background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 8px; padding: 20px; margin: 15px 0; }
+        .role-card h3 { color: #3b82f6; margin-top: 0; margin-bottom: 10px; }
+        .decision-point { background: white; border: 2px solid #6c757d; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .decision-point h3 { background: #6c757d; color: white; padding: 10px; margin: -20px -20px 15px -20px; border-radius: 6px 6px 0 0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #dee2e6; padding: 8px 10px; text-align: left; vertical-align: top; }
+        th { background: #f0f0f0; }
+        .footer { background: #343a40; color: white; padding: 20px; text-align: center; }
+        h2 { color: #3b82f6; margin: 25px 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #dee2e6; }
+        h3 { color: #495057; margin: 20px 0 10px 0; }
+        p { margin: 8px 0; }
+        ul, ol { margin-left: 30px; margin-top: 10px; }
+        li { margin: 8px 0; }
+        strong { color: #495057; }
+        .classified-box strong { color: #ffb3b3; }
+        @media (max-width: 640px) {
+            body { padding: 8px; }
+            .content { padding: 18px; }
+            .header h1 { font-size: 1.6em; }
+            .tab { flex: 1 1 33%; padding: 10px; font-size: .9em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lights Out in Bethesda</h1>
+            <p>A War Game: The Government Shuts Down and NIH Goes Dark</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="overview">Scenario</button>
+            <button class="tab" data-tab="teams">Teams</button>
+            <button class="tab" data-tab="move1">Move 1</button>
+            <button class="tab" data-tab="move2">Move 2</button>
+            <button class="tab" data-tab="debrief">Debrief</button>
+        </div>
+
+        <div class="content">
+
+            <!-- ===================== SCENARIO ===================== -->
+            <div id="overview" class="tab-content active">
+                <h2>Scenario</h2>
+
+                <div class="danger-box">
+                    <strong>OCTOBER 1, 12:01 AM.</strong> Congress failed to pass a budget. The federal government is shut down. At NIH in Bethesda, thousands of scientists, nurses, and staff are told to go home. But the hospital still has patients, the lab mice still need to eat, and the freezers still need to stay cold.
+                </div>
+
+                <h3>The Rules</h3>
+                <ul>
+                    <li>During a shutdown, federal work may continue <strong>only if it protects human life or government property</strong>.</li>
+                    <li>Everyone else goes home, unpaid.</li>
+                    <li>Working for free is <strong>illegal</strong>. No volunteering.</li>
+                    <li>Patients already in the NIH hospital (the Clinical Center) keep getting care. <strong>New patients are turned away.</strong></li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>The 50 Minutes:</strong>
+                    <table>
+                        <tr><th>Time</th><th>What Happens</th></tr>
+                        <tr><td>0–5</td><td>Briefing, go to breakout rooms</td></tr>
+                        <tr><td>5–20</td><td><strong>Move 1</strong> in breakout rooms</td></tr>
+                        <tr><td>20–25</td><td>Report out (1 minute per team)</td></tr>
+                        <tr><td>25–38</td><td><strong>Move 2</strong> in breakout rooms</td></tr>
+                        <tr><td>38–43</td><td>Report out</td></tr>
+                        <tr><td>43–50</td><td>Debrief</td></tr>
+                    </table>
+                </div>
+
+                <p>Your instructor plays everyone else: the White House, the HHS Secretary, the lawyers, and the Senate. The instructor decides what happens as a result of your choices.</p>
+                <p><em>Fictional scenario, loosely based on real shutdowns.</em></p>
+            </div>
+
+            <!-- ===================== TEAMS ===================== -->
+            <div id="teams" class="tab-content">
+                <h2>Teams</h2>
+                <p>Three breakout rooms. Pick a role, a <strong>Spokesperson</strong>, and a <strong>Scribe</strong>. Extra people are advisors.</p>
+
+                <div class="role-card">
+                    <h3>Room A: NIH Leadership</h3>
+                    <p>You decide who keeps working. You have <strong>3 "Keep Open" cards</strong>.</p>
+                    <ul>
+                        <li>NIH Director</li>
+                        <li>Hospital (Clinical Center) Chief</li>
+                        <li>Chief Lawyer: makes sure every card follows the life-or-property rule</li>
+                        <li>Press Secretary</li>
+                    </ul>
+                </div>
+
+                <div class="role-card">
+                    <h3>Room B: The Scientists</h3>
+                    <p>You were just sent home. You have no cards, only arguments.</p>
+                    <ul>
+                        <li>Dr. Alvarez: 3-year mouse study, now in Year 2</li>
+                        <li>Dr. Okafor: freezers holding 15 years of patient samples</li>
+                        <li>Dr. Hollis: runs a children's cancer trial with a waiting list</li>
+                        <li>Jordan: a postdoc who just got a job offer from a biotech company</li>
+                    </ul>
+                </div>
+
+                <div class="role-card">
+                    <h3>Room C: Congress, Press &amp; Families</h3>
+                    <p>You can't run NIH, but you control the money and the story.</p>
+                    <ul>
+                        <li>Rep. Whitfield: represents Bethesda</li>
+                        <li>Sen. Calder: the other party, wants to win the shutdown fight</li>
+                        <li>A TV reporter</li>
+                        <li>The Kowalskis: parents of Ellie, age 9, who has a rare cancer and was about to enter an NIH trial</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ===================== MOVE 1 ===================== -->
+            <div id="move1" class="tab-content">
+                <h2>Move 1: Day 1, "Who Stays?"</h2>
+
+                <div class="danger-box">
+                    <strong>OCTOBER 1, 7:00 AM.</strong> Six requests land on the NIH Director's desk. There are only three cards.
+                </div>
+
+                <table>
+                    <tr><th>#</th><th>Request to Keep Open</th></tr>
+                    <tr><td>1</td><td>Admit <strong>new patients</strong> to trials (like Ellie)</td></tr>
+                    <tr><td>2</td><td>Feed and care for <strong>lab animals</strong></td></tr>
+                    <tr><td>3</td><td>Watch the <strong>freezers</strong> of patient samples</td></tr>
+                    <tr><td>4</td><td>Keep the <strong>3-year mouse study</strong> running</td></tr>
+                    <tr><td>5</td><td>Keep the <strong>outbreak lab</strong> tracking a new virus</td></tr>
+                    <tr><td>6</td><td>Keep the <strong>press office</strong> open</td></tr>
+                </table>
+
+                <div class="decision-point">
+                    <h3>Room A: NIH Leadership</h3>
+                    <ol>
+                        <li>Pick <strong>3</strong> requests to keep open. For each, the lawyer writes one sentence: life or property?</li>
+                        <li>Dr. Alvarez says she'll sneak in Saturday, unpaid, to check her mice. Do you stop her?</li>
+                    </ol>
+                </div>
+
+                <div class="decision-point">
+                    <h3>Room B: The Scientists</h3>
+                    <ol>
+                        <li>Pick the <strong>one</strong> request you'll fight hardest for. Write your best one-sentence pitch.</li>
+                        <li>Jordan's job offer: tell Jordan to stay or go?</li>
+                    </ol>
+                </div>
+
+                <div class="decision-point">
+                    <h3>Room C: Congress, Press &amp; Families</h3>
+                    <ol>
+                        <li>Congress: reopen <strong>everything</strong>, reopen <strong>only NIH</strong>, or <strong>hold out</strong> for your side's demands?</li>
+                        <li>Reporter: write tonight's headline (10 words or fewer).</li>
+                    </ol>
+                </div>
+
+                <div class="classified-box">
+                    <strong>REPORT OUT:</strong> Each Spokesperson gets 1 minute. The instructor then tells you what happened to everything left closed.
+                </div>
+            </div>
+
+            <!-- ===================== MOVE 2 ===================== -->
+            <div id="move2" class="tab-content">
+                <h2>Move 2: Day 12, "It Gets Personal"</h2>
+
+                <div class="danger-box">
+                    <strong>OCTOBER 12.</strong> No end in sight. Ellie Kowalski is on the morning news. Her parents say NIH "shut the door on our daughter." The clip has 4 million views. The HHS Secretary tells NIH: <strong>"No interviews. No comment."</strong>
+                </div>
+
+                <div class="decision-point">
+                    <h3>Room A: NIH Leadership</h3>
+                    <ol>
+                        <li>Do you use one of your 3 cards to admit Ellie? (Dozens of other families on the waiting list aren't on TV.) If yes, what do you close instead?</li>
+                        <li>The Director is invited on a Sunday news show. Obey the Secretary, or go on?</li>
+                    </ol>
+                </div>
+
+                <div class="decision-point">
+                    <h3>Room B: The Scientists</h3>
+                    <ol>
+                        <li>Go public with an open letter to Congress, or stay quiet? (You're federal employees.)</li>
+                        <li>When the lights come back on, what's the <strong>first</strong> thing NIH should restart?</li>
+                    </ol>
+                </div>
+
+                <div class="decision-point">
+                    <h3>Room C: Congress, Press &amp; Families</h3>
+                    <ol>
+                        <li>An advocacy group wants Ellie at a press conference at the Capitol. She is 9. Do the Kowalskis bring her?</li>
+                        <li>Congress: has Ellie changed your position?</li>
+                        <li>Reporter: final headline.</li>
+                    </ol>
+                </div>
+
+                <div class="classified-box">
+                    <strong>REPORT OUT:</strong> 1 minute per team. Then the instructor announces when the shutdown ends.
+                </div>
+            </div>
+
+            <!-- ===================== DEBRIEF ===================== -->
+            <div id="debrief" class="tab-content">
+                <h2>Debrief</h2>
+
+                <div class="info-box">
+                    <strong>Class vote:</strong> Best headline?
+                </div>
+
+                <ul>
+                    <li>A freezer counts as "property." A 9-year-old who hasn't been admitted yet may not count as "life." Is that the right rule?</li>
+                    <li>Why would the law forbid people from working for free?</li>
+                    <li>Did putting Ellie on TV help her? Did it help the families who weren't on TV?</li>
+                    <li>What does a shutdown cost science that never shows up in the budget?</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Lights Out in Bethesda: An NIH Shutdown War Game | Fictional Scenario</p>
+            <p>Student Version</p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.tab').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.tab-content').forEach(function (c) { c.classList.remove('active'); });
+                document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+                document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+                btn.classList.add('active');
+                window.scrollTo(0, 0);
+            });
+        });
+    </script>
+</body>
+</html>
